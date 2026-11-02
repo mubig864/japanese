@@ -87,6 +87,242 @@
     font-size: 15px;
   }
 }
+
+
+/* =====================================
+   전체 글자 크기 확대
+   PC와 스마트폰 공통 적용
+===================================== */
+
+/* 기본 본문 */
+body {
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+/* 제목 */
+.h1 {
+  font-size: 36px;
+  line-height: 1.35;
+}
+
+.h2 {
+  font-size: 24px;
+  line-height: 1.45;
+}
+
+/* 설명 및 보조 문구 */
+.cap,
+.link small,
+.crow small,
+.ref .intro,
+.fc .hint,
+.q-ask,
+.stat span,
+.ft .n {
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+/* 버튼 및 선택 메뉴 */
+.btn {
+  font-size: 19px;
+  min-height: 54px;
+}
+
+.chip,
+.seg button {
+  font-size: 16px;
+  min-height: 44px;
+}
+
+#nav button {
+  font-size: 15px;
+}
+
+/* 단어 목록 */
+.wrow .jk {
+  font-size: 24px;
+}
+
+.wrow .m {
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+/* 단어 카드 */
+.fc .mean {
+  font-size: clamp(30px, 8vw, 38px);
+}
+
+.fc .big {
+  font-size: clamp(42px, 13vw, 64px);
+}
+
+.chipt {
+  font-size: 14px;
+}
+
+.hl {
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.hl .jk {
+  font-size: 20px;
+}
+
+/* 퀴즈 */
+.q-ask {
+  font-size: 18px;
+}
+
+.opt .t {
+  font-size: 19px;
+  line-height: 1.6;
+}
+
+.opt .jk,
+.fb .jk {
+  font-size: 23px;
+}
+
+.fb .cap {
+  font-size: 16px;
+}
+
+/* 문법 설명 */
+.ref summary {
+  font-size: 21px;
+  min-height: 62px;
+}
+
+.ref .intro {
+  font-size: 16px;
+}
+
+.ref h4 {
+  font-size: 19px;
+}
+
+.rw .l {
+  font-size: 17px;
+}
+
+.rw .r,
+.rw .k {
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.rw .e {
+  font-size: 21px;
+  line-height: 1.9;
+}
+
+/* 회화 */
+.crow .no,
+.who {
+  font-size: 15px;
+}
+
+.crow .no b {
+  font-size: 24px;
+}
+
+.crow small {
+  font-size: 16px;
+}
+
+.bub {
+  font-size: 22px;
+  line-height: 2;
+}
+
+.kot {
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.prompt .t,
+.kobig {
+  font-size: 21px;
+  line-height: 1.7;
+}
+
+.pc {
+  font-size: 21px;
+}
+
+/* 모바일에서는 한 단계 더 확대 */
+@media (max-width: 600px) {
+  body {
+    font-size: 19px;
+    line-height: 1.75;
+  }
+
+  .h1 {
+    font-size: 38px;
+  }
+
+  .h2 {
+    font-size: 26px;
+  }
+
+  .cap,
+  .link small,
+  .crow small,
+  .ref .intro,
+  .stat span,
+  .ft .n {
+    font-size: 17px;
+  }
+
+  .btn {
+    font-size: 20px;
+    min-height: 58px;
+  }
+
+  .chip,
+  .seg button {
+    font-size: 17px;
+    min-height: 46px;
+  }
+
+  .wrow .m,
+  .rw .r,
+  .rw .k,
+  .kot {
+    font-size: 18px;
+  }
+
+  .rw .l {
+    font-size: 19px;
+  }
+
+  .rw .e,
+  .bub {
+    font-size: 23px;
+  }
+
+  .opt .t {
+    font-size: 20px;
+  }
+
+  .ref summary {
+    font-size: 23px;
+  }
+
+  .ref h4 {
+    font-size: 20px;
+  }
+
+  #nav button {
+    font-size: 16px;
+  }
+}
+
+
 </style>
 
 <title>일본어 첫걸음 핸드북</title>
