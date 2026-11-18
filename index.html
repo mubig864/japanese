@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>가나 마스터 - 일본어 여행 회화 문자 학습</title>
+<style>
+  :root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --primary-light: #eff6ff;
+    --accent: #f59e0b;
+    --success: #10b981;
+    --danger: #ef4444;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --font-scale: 1;
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 74px;
+  }
+
+  /* Header */
+  header {
+    background: var(--card);
+    padding: 14px 16px 10px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 8px;
+  }
+
+  .app-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .font-controls {
+    display: flex;
+    align-items: center;
+    background: #f1f5f9;
+    border-radius: 20px;
+    padding: 2px;
+    border: 1px solid var(--border);
+  }
+
+  .font-btn {
+    border: none;
+    background: transparent;
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 800;
+    padding: 4px 8px;
+    border-radius: 16px;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  .font-btn:active {
+    background: var(--card);
+    color: var(--primary);
+  }
+
+  .font-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    padding: 0 3px;
+    min-width: 32px;
+    text-align: center;
+  }
+
+  .progress-badge {
+    font-size: 12px;
+    font-weight: 600;
+    background: var(--primary-light);
+    color: var(--primary);
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .script-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #f1f5f9;
+    padding: 3px;
+    border-radius: 10px;
+  }
+
+  .script-btn {
+    border: none;
+    background: transparent;
+    padding: 8px 0;
+    font-size: calc(14px * var(--font-scale));
+    font-weight: 700;
+    color: var(--text-muted);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .script-btn.active {
+    background: var(--card);
+    color: var(--primary);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+
+  /* Main Container */
+  main {
+    flex: 1;
+    padding: 14px 16px;
+  }
+
+  .tab-content {
+    display: none;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+
+  /* Sub-filter pills */
+  .sub-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+    overflow-x: auto;
+  }
+
+  .pill-btn {
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text-muted);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: calc(13px * var(--font-scale));
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .pill-btn.active {
+    background: var(--text);
+    color: #fff;
+    border-color: var(--text);
+  }
+
+  /* Info Banner (Selected Char) */
+  .char-detail-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+  }
+
+  .detail-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .detail-kana {
+    font-size: calc(40px * var(--font-scale));
+    font-weight: 700;
+    width: calc(62px * var(--font-scale));
+    height: calc(62px * var(--font-scale));
+    min-width: calc(62px * var(--font-scale));
+    background: var(--primary-light);
+    color: var(--primary);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .detail-info h3 {
+    font-size: calc(18px * var(--font-scale));
+    margin-bottom: 4px;
+  }
+
+  .detail-word {
+    font-size: calc(13px * var(--font-scale));
+    color: var(--text-muted);
+  }
+
+  .speak-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: calc(13px * var(--font-scale));
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    white-space: nowrap;
+  }
+
+  .speak-btn:active {
+    transform: scale(0.96);
+  }
+
+  /* Kana Grid */
+  .kana-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
+
+  .kana-grid.yoon {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .kana-cell {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 4px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.1s, border-color 0.2s;
+  }
+
+  .kana-cell:active {
+    transform: scale(0.94);
+    border-color: var(--primary);
+    background: var(--primary-light);
+  }
+
+  .kana-cell.empty {
+    background: transparent;
+    border: 1px dashed #e2e8f0;
+    cursor: default;
+  }
+
+  .kana-cell.learned::after {
+    content: "";
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--success);
+  }
+
+  .cell-char {
+    font-size: calc(24px * var(--font-scale));
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 2px;
+  }
+
+  .cell-ko {
+    font-size: calc(12px * var(--font-scale));
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  /* Flashcard Tab */
+  .fc-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    gap: 8px;
+  }
+
+  select.row-select {
+    flex: 1;
+    padding: 9px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    font-size: calc(14px * var(--font-scale));
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .fc-counter {
+    font-size: calc(13px * var(--font-scale));
+    font-weight: 700;
+    color: var(--text-muted);
+  }
+
+  .flashcard {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    min-height: 270px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 20px;
+    text-align: center;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+    cursor: pointer;
+    position: relative;
+    margin-bottom: 16px;
+    user-select: none;
+  }
+
+  .fc-hint {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    font-size: calc(12px * var(--font-scale));
+    color: var(--text-muted);
+  }
+
+  .fc-main-char {
+    font-size: calc(88px * var(--font-scale));
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.1;
+  }
+
+  .fc-back-info {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .flashcard.flipped .fc-main-char {
+    font-size: calc(48px * var(--font-scale));
+    color: var(--primary);
+    margin-bottom: 8px;
+  }
+
+  .flashcard.flipped .fc-back-info {
+    display: flex;
+  }
+
+  .fc-ko {
+    font-size: calc(26px * var(--font-scale));
+    font-weight: 800;
+  }
+
+  .fc-example {
+    font-size: calc(14px * var(--font-scale));
+    color: var(--text-muted);
+    background: #f1f5f9;
+    padding: 6px 12px;
+    border-radius: 8px;
+  }
+
+  .fc-actions {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr 1fr;
+    gap: 8px;
+  }
+
+  .btn {
+    border: none;
+    border-radius: 12px;
+    padding: 13px 10px;
+    font-size: calc(14px * var(--font-scale));
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .btn-outline {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  .btn-success {
+    background: var(--success);
+    color: white;
+  }
+
+  .btn-primary {
+    background: var(--primary);
+    color: white;
+  }
+
+  /* Quiz Tab */
+  .quiz-mode-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .quiz-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 24px 16px;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+
+  .quiz-prompt-label {
+    font-size: calc(13px * var(--font-scale));
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+
+  .quiz-question {
+    font-size: calc(64px * var(--font-scale));
+    font-weight: 800;
+    min-height: 84px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .quiz-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .option-btn {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 10px;
+    font-size: calc(20px * var(--font-scale));
+    font-weight: 700;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .option-btn.correct {
+    background: #dcfce7;
+    border-color: var(--success);
+    color: #166534;
+  }
+
+  .option-btn.wrong {
+    background: #fee2e2;
+    border-color: var(--danger);
+    color: #991b1b;
+  }
+
+  .quiz-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: calc(13px * var(--font-scale));
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  .weak-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px;
+  }
+
+  .weak-box h4 {
+    font-size: calc(13px * var(--font-scale));
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .weak-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .weak-chip {
+    background: #fef2f2;
+    color: var(--danger);
+    border: 1px solid #fecaca;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: calc(14px * var(--font-scale));
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  /* Travel Words Tab */
+  .vocab-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 6px;
+  }
+
+  .vocab-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .vocab-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+
+  .vocab-item:active {
+    background: var(--primary-light);
+  }
+
+  .vocab-jp {
+    font-size: calc(19px * var(--font-scale));
+    font-weight: 800;
+    margin-bottom: 3px;
+  }
+
+  .vocab-reading {
+    font-size: calc(13px * var(--font-scale));
+    color: var(--primary);
+    font-weight: 600;
+  }
+
+  .vocab-reading.hidden {
+    filter: blur(5px);
+    user-select: none;
+  }
+
+  .vocab-meaning {
+    font-size: calc(14px * var(--font-scale));
+    font-weight: 700;
+    color: var(--text);
+    text-align: right;
+  }
+
+  .vocab-cat {
+    font-size: calc(11px * var(--font-scale));
+    color: var(--text-muted);
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* Bottom Navigation */
+  nav.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 480px;
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 6px 0 8px;
+    z-index: 30;
+  }
+
+  .nav-item {
+    border: none;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    font-size: calc(11px * var(--font-scale));
+    font-weight: 700;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px 0;
+  }
+
+  .nav-item.active {
+    color: var(--primary);
+  }
+
+  .nav-icon {
+    font-size: 20px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="app-title">🇯🇵 가나 마스터</div>
+    <div class="header-right">
+      <div class="font-controls" title="글자 크기 조절">
+        <button class="font-btn" onclick="changeFontSize(-0.15)" aria-label="글자 작게">가-</button>
+        <span class="font-label" id="fontScaleLabel">100%</span>
+        <button class="font-btn" onclick="changeFontSize(0.15)" aria-label="글자 크게">가+</button>
+      </div>
+      <div class="progress-badge" id="progressBadge">0%</div>
+    </div>
+  </div>
+  <div class="script-toggle">
+    <button class="script-btn active" id="btnHiragana" onclick="setScript('h')">히라가나 (あ)</button>
+    <button class="script-btn" id="btnKatakana" onclick="setScript('k')">가타카나 (ア)</button>
+  </div>
+</header>
+
+<main>
+  <!-- TAB 1: CHART -->
+  <section id="tab-chart" class="tab-content active">
+    <div class="sub-tabs">
+      <button class="pill-btn active" onclick="setChartCategory('basic', this)">청음 (기본 46자)</button>
+      <button class="pill-btn" onclick="setChartCategory('dakuten', this)">탁음·반탁음</button>
+      <button class="pill-btn" onclick="setChartCategory('yoon', this)">요음 (합성음)</button>
+    </div>
+
+    <div class="char-detail-card" id="detailCard">
+      <div class="detail-left">
+        <div class="detail-kana" id="detailKana">あ</div>
+        <div class="detail-info">
+          <h3 id="detailKo">아 [a]</h3>
+          <div class="detail-word" id="detailWord">예시: ありがとう (아리가토 - 고마워요)</div>
+        </div>
+      </div>
+      <button class="speak-btn" onclick="speakCurrentDetail()">
+        <span>🔊</span>
+        <span>단어듣기</span>
+      </button>
+    </div>
+
+    <div class="kana-grid" id="kanaGrid"></div>
+  </section>
+
+  <!-- TAB 2: FLASHCARD -->
+  <section id="tab-flashcard" class="tab-content">
+    <div class="fc-controls">
+      <select class="row-select" id="fcFilter" onchange="initFlashcards()">
+        <option value="all">전체 문자 (청음+탁음)</option>
+        <option value="basic">청음 전체 (46자)</option>
+        <option value="unlearned">미암기 문자만</option>
+        <option value="아행">아행 (あ~お)</option>
+        <option value="카행">카행 (か~こ)</option>
+        <option value="사행">사행 (さ~そ)</option>
+        <option value="타행">타행 (た~と)</option>
+        <option value="나행">나행 (な~の)</option>
+        <option value="하행">하행 (は~ほ)</option>
+        <option value="마행">마행 (ま~も)</option>
+        <option value="야행">야행 (や~よ)</option>
+        <option value="라행">라행 (ら~ろ)</option>
+        <option value="와행">와행 (わ~ん)</option>
+        <option value="dakuten">탁음·반탁음 전체</option>
+      </select>
+      <div class="fc-counter" id="fcCounter">1 / 46</div>
+    </div>
+
+    <div class="flashcard" id="flashcard" onclick="flipCard()">
+      <span class="fc-hint">터치해서 뒤집기</span>
+      <div class="fc-main-char" id="fcChar">あ</div>
+      <div class="fc-back-info">
+        <div class="fc-ko" id="fcKo">아 [a]</div>
+        <div class="fc-example" id="fcExample">ありがとう (고마워요)</div>
+      </div>
+    </div>
+
+    <div class="fc-actions">
+      <button class="btn btn-outline" onclick="prevCard()">◀ 이전</button>
+      <button class="btn btn-success" id="btnMarkLearned" onclick="toggleLearnedCurrent()">✓ 외웠어요</button>
+      <button class="btn btn-primary" onclick="nextCard()">다음 ▶</button>
+    </div>
+  </section>
+
+  <!-- TAB 3: QUIZ -->
+  <section id="tab-quiz" class="tab-content">
+    <div class="quiz-mode-bar">
+      <button class="pill-btn active" onclick="setQuizMode('charToKo', this)">글자 → 발음</button>
+      <button class="pill-btn" onclick="setQuizMode('koToChar', this)">발음 → 글자</button>
+      <button class="pill-btn" onclick="setQuizMode('listen', this)">🎧 듣기 퀴즈</button>
+    </div>
+
+    <div class="quiz-stats">
+      <span id="quizScore">정답: 0 / 0</span>
+      <span id="quizStreak">연속 정답: 0🔥</span>
+    </div>
+
+    <div class="quiz-card">
+      <div class="quiz-prompt-label" id="quizLabel">이 글자의 발음은?</div>
+      <div class="quiz-question" id="quizQuestion">あ</div>
+    </div>
+
+    <div class="quiz-options" id="quizOptions"></div>
+
+    <div class="weak-box">
+      <h4>
+        <span>자주 틀리는 문자 (터치해 발음 확인)</span>
+        <span style="color:var(--primary);cursor:pointer;" onclick="clearWeak()">초기화</span>
+      </h4>
+      <div class="weak-chips" id="weakChips">
+        <span style="font-size:12px;color:#94a3b8;">아직 오답 기록이 없습니다.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 4: TRAVEL VOCAB -->
+  <section id="tab-vocab" class="tab-content">
+    <div class="vocab-header">
+      <div class="sub-tabs" style="margin-bottom:0;">
+        <button class="pill-btn active" onclick="filterVocab('all', this)">전체</button>
+        <button class="pill-btn" onclick="filterVocab('카페·식당', this)">카페·식당</button>
+        <button class="pill-btn" onclick="filterVocab('편의점·쇼핑', this)">편의점·쇼핑</button>
+        <button class="pill-btn" onclick="filterVocab('교통·표지판', this)">교통·표지판</button>
+      </div>
+      <button class="pill-btn" id="toggleBlurBtn" onclick="toggleReadingBlur()">발음 가리기</button>
+    </div>
+    <p style="font-size:calc(12px * var(--font-scale));color:var(--text-muted);margin-bottom:10px;">단어를 터치하면 원어민 발음이 재생됩니다.</p>
+    <div class="vocab-list" id="vocabList"></div>
+  </section>
+</main>
+
+<nav class="bottom-nav">
+  <button class="nav-item active" onclick="switchTab('chart', this)">
+    <span class="nav-icon">🔠</span>
+    <span>오십음도</span>
+  </button>
+  <button class="nav-item" onclick="switchTab('flashcard', this)">
+    <span class="nav-icon">🗂️</span>
+    <span>플래시카드</span>
+  </button>
+  <button class="nav-item" onclick="switchTab('quiz', this)">
+    <span class="nav-icon">✏️</span>
+    <span>실전퀴즈</span>
+  </button>
+  <button class="nav-item" onclick="switchTab('vocab', this)">
+    <span class="nav-icon">✈️</span>
+    <span>여행단어</span>
+  </button>
+</nav>
+
+<script>
+// 1. KANA DATABASE
+const KANA_DATA = [
+  // Basic (청음)
+  { h:'あ', k:'ア', ko:'아', en:'a', row:'아행', cat:'basic', exH:'ありがとう', exK:'アイス', exKo:'아리가토 / 아이스', exMean:'고마워요 / 아이스' },
+  { h:'い', k:'イ', ko:'이', en:'i', row:'아행', cat:'basic', exH:'いくら', exK:'インフォメーション', exKo:'이쿠라 / 인포메이션', exMean:'얼마예요 / 안내소' },
+  { h:'う', k:'ウ', ko:'우', en:'u', row:'아행', cat:'basic', exH:'うまい', exK:'ウォーター', exKo:'우마이 / 워터', exMean:'맛있다 / 물' },
+  { h:'え', k:'エ', ko:'에', en:'e', row:'아행', cat:'basic', exH:'えき', exK:'エレベーター', exKo:'에키 / 엘레베이터', exMean:'역 / 엘리베이터' },
+  { h:'お', k:'オ', ko:'오', en:'o', row:'아행', cat:'basic', exH:'お水', exK:'オレンジ', exKo:'오미즈 / 오렌지', exMean:'물 / 오렌지' },
+
+  { h:'か', k:'カ', ko:'카', en:'ka', row:'카행', cat:'basic', exH:'かさ', exK:'カード', exKo:'카사 / 카드', exMean:'우산 / 카드' },
+  { h:'き', k:'キ', ko:'키', en:'ki', row:'카행', cat:'basic', exH:'きっぷ', exK:'キャッシュレス', exKo:'킷푸 / 캣슈레스', exMean:'표(티켓) / 무현금결제' },
+  { h:'く', k:'ク', ko:'쿠', en:'ku', row:'카행', cat:'basic', exH:'くうこう', exK:'クレジット', exKo:'쿠코 / 크레딧', exMean:'공항 / 신용카드' },
+  { h:'け', k:'ケ', ko:'케', en:'ke', row:'카행', cat:'basic', exH:'けいたい', exK:'ケーキ', exKo:'케타이 / 케키', exMean:'휴대폰 / 케이크' },
+  { h:'こ', k:'コ', ko:'코', en:'ko', row:'카행', cat:'basic', exH:'ここ', exK:'コーヒー', exKo:'코코 / 코히', exMean:'여기 / 커피' },
+
+  { h:'さ', k:'サ', ko:'사', en:'sa', row:'사행', cat:'basic', exH:'さけ', exK:'サイズ', exKo:'사케 / 사이즈', exMean:'술(사케) / 사이즈' },
+  { h:'し', k:'シ', ko:'시', en:'shi', row:'사행', cat:'basic', exH:'しお', exK:'レシート', exKo:'시오 / 레시토', exMean:'소금 / 영수증' },
+  { h:'す', k:'ス', ko:'스', en:'su', row:'사행', cat:'basic', exH:'すし', exK:'スプーン', exKo:'스시 / 스푼', exMean:'초밥 / 숟가락' },
+  { h:'せ', k:'セ', ko:'세', en:'se', row:'사행', cat:'basic', exH:'せき', exK:'セット', exKo:'세키 / 셋토', exMean:'좌석 / 세트메뉴' },
+  { h:'そ', k:'ソ', ko:'소', en:'so', row:'사행', cat:'basic', exH:'そこ', exK:'ソフトクリーム', exKo:'소코 / 소프트크림', exMean:'거기 / 소프트아이스크림' },
+
+  { h:'た', k:'タ', ko:'타', en:'ta', row:'타행', cat:'basic', exH:'たべる', exK:'タクシー', exKo:'타베루 / 타쿠시', exMean:'먹다 / 택시' },
+  { h:'ち', k:'チ', ko:'치', en:'chi', row:'타행', cat:'basic', exH:'ちかてつ', exK:'チケット', exKo:'치카테츠 / 치켓토', exMean:'지하철 / 티켓' },
+  { h:'つ', k:'ツ', ko:'츠', en:'tsu', row:'타행', cat:'basic', exH:'つぎ', exK:'ツアー', exKo:'츠기 / 츠아', exMean:'다음 / 투어' },
+  { h:'て', k:'テ', ko:'테', en:'te', row:'타행', cat:'basic', exH:'てきとう', exK:'テーブル', exKo:'테키토 / 테부루', exMean:'적당함 / 테이블' },
+  { h:'と', k:'ト', ko:'토', en:'to', row:'타행', cat:'basic', exH:'トイレ', exK:'トイレ', exKo:'토이레', exMean:'화장실' },
+
+  { h:'な', k:'ナ', ko:'나', en:'na', row:'나행', cat:'basic', exH:'なまえ', exK:'ナイフ', exKo:'나마에 / 나이후', exMean:'이름 / 나이프' },
+  { h:'に', k:'ニ', ko:'니', en:'ni', row:'나행', cat:'basic', exH:'にもつ', exK:'ニュース', exKo:'니모츠 / 뉴스', exMean:'짐(수하물) / 뉴스' },
+  { h:'ぬ', k:'ヌ', ko:'누', en:'nu', row:'나행', cat:'basic', exH:'ぬの', exK:'ヌードル', exKo:'누노 / 누도루', exMean:'천 / 누들(면)' },
+  { h:'ね', k:'ネ', ko:'네', en:'ne', row:'나행', cat:'basic', exH:'ねだん', exK:'ネット', exKo:'네단 / 넷토', exMean:'가격 / 인터넷' },
+  { h:'の', k:'ノ', ko:'노', en:'no', row:'나행', cat:'basic', exH:'のみもの', exK:'ノート', exKo:'노미모노 / 노토', exMean:'마실 것 / 노트' },
+
+  { h:'は', k:'ハ', ko:'하', en:'ha', row:'하행', cat:'basic', exH:'はい', exK:'ハンバーガー', exKo:'하이 / 한바가', exMean:'네 / 햄버거' },
+  { h:'ひ', k:'ヒ', ko:'히', en:'hi', row:'하행', cat:'basic', exH:'ひだり', exK:'ヒーター', exKo:'히다리 / 히타', exMean:'왼쪽 / 히터' },
+  { h:'ふ', k:'フ', ko:'후', en:'fu', row:'하행', cat:'basic', exH:'ふね', exK:'フォーク', exKo:'후네 / 포쿠', exMean:'배 / 포크' },
+  { h:'へ', k:'ヘ', ko:'헤', en:'he', row:'하행', cat:'basic', exH:'へや', exK:'ヘア', exKo:'헤야 / 헤어', exMean:'방 / 헤어' },
+  { h:'ほ', k:'ホ', ko:'호', en:'ho', row:'하행', cat:'basic', exH:'ほん', exK:'ホテル', exKo:'혼 / 호테루', exMean:'책 / 호텔' },
+
+  { h:'ま', k:'マ', ko:'마', en:'ma', row:'마행', cat:'basic', exH:'まえ', exK:'マスク', exKo:'마에 / 마스쿠', exMean:'앞 / 마스크' },
+  { h:'み', k:'ミ', ko:'미', en:'mi', row:'마행', cat:'basic', exH:'みぎ', exK:'ミルク', exKo:'미기 / 미루쿠', exMean:'오른쪽 / 우유' },
+  { h:'む', k:'ム', ko:'무', en:'mu', row:'마행', cat:'basic', exH:'むりょう', exK:'ムード', exKo:'무료 / 무도', exMean:'무료 / 분위기' },
+  { h:'め', k:'メ', ko:'메', en:'me', row:'마행', cat:'basic', exH:'メニュー', exK:'メニュー', exKo:'메뉴', exMean:'메뉴판' },
+  { h:'も', k:'モ', ko:'모', en:'mo', row:'마행', cat:'basic', exH:'もういちど', exK:'モーニング', exKo:'모이치도 / 모닝구', exMean:'한 번 더 / 모닝세트' },
+
+  { h:'や', k:'ヤ', ko:'야', en:'ya', row:'야행', cat:'basic', exH:'やすい', exK:'ヤング', exKo:'야스이 / 얀구', exMean:'싸다 / 젊은' },
+  null,
+  { h:'ゆ', k:'ユ', ko:'유', en:'yu', row:'야행', cat:'basic', exH:'ゆめ', exK:'ユーロ', exKo:'유메 / 유로', exMean:'꿈 / 유로' },
+  null,
+  { h:'よ', k:'ヨ', ko:'요', en:'yo', row:'야행', cat:'basic', exH:'よやく', exK:'ヨーグルト', exKo:'요야쿠 / 요구루토', exMean:'예약 / 요거트' },
+
+  { h:'ら', k:'ラ', ko:'라', en:'ra', row:'라행', cat:'basic', exH:'らいねん', exK:'ラーメン', exKo:'라이넨 / 라멘', exMean:'내년 / 라멘' },
+  { h:'り', k:'リ', ko:'리', en:'ri', row:'라행', cat:'basic', exH:'りょうり', exK:'リスト', exKo:'료리 / 리스토', exMean:'요리 / 리스트' },
+  { h:'る', k:'ル', ko:'루', en:'ru', row:'라행', cat:'basic', exH:'るす', exK:'ルーム', exKo:'루스 / 루무', exMean:'부재중 / 룸(방)' },
+  { h:'れ', k:'レ', ko:'레', en:'re', row:'라행', cat:'basic', exH:'れいぞうこ', exK:'レジ', exKo:'레이조코 / 레지', exMean:'냉장고 / 계산대' },
+  { h:'ろ', k:'ロ', ko:'로', en:'ro', row:'라행', cat:'basic', exH:'ろく', exK:'ロビー', exKo:'로쿠 / 로비', exMean:'숫자 6 / 호텔 로비' },
+
+  { h:'わ', k:'ワ', ko:'와', en:'wa', row:'와행', cat:'basic', exH:'わたし', exK:'ワイン', exKo:'와타시 / 와인', exMean:'나(저) / 와인' },
+  null,
+  { h:'を', k:'ヲ', ko:'오(을/를)', en:'wo', row:'와행', cat:'basic', exH:'これをください', exK:'ヲタク', exKo:'코레오 쿠다사이', exMean:'이것을 주세요' },
+  null,
+  { h:'ん', k:'ン', ko:'응(받침)', en:'n', row:'와행', cat:'basic', exH:'すみません', exK:'パン', exKo:'스미마센 / 팡', exMean:'실례합니다 / 빵' },
+
+  // Dakuten & Handakuten (탁음·반탁음)
+  { h:'が', k:'ガ', ko:'가', en:'ga', row:'가행', cat:'dakuten', exH:'がいこくじん', exK:'ガイド', exKo:'가이코쿠진 / 가이도', exMean:'외국인 / 가이드' },
+  { h:'ぎ', k:'ギ', ko:'기', en:'gi', row:'가행', cat:'dakuten', exH:'ぎんこう', exK:'ギフト', exKo:'긴코 / 기후토', exMean:'은행 / 선물' },
+  { h:'ぐ', k:'グ', ko:'구', en:'gu', row:'가행', cat:'dakuten', exH:'ぐあい', exK:'グラス', exKo:'구아이 / 구라스', exMean:'상태 / 유리잔' },
+  { h:'げ', k:'ゲ', ko:'게', en:'ge', row:'가행', cat:'dakuten', exH:'げんきん', exK:'ゲート', exKo:'겐킨 / 게토', exMean:'현금 / 탑승구(게이트)' },
+  { h:'ご', k:'ゴ', ko:'고', en:'go', row:'가행', cat:'dakuten', exH:'ごはん', exK:'ゴミ', exKo:'고항 / 고미', exMean:'밥 / 쓰레기' },
+
+  { h:'ざ', k:'ザ', ko:'자', en:'za', row:'자행', cat:'dakuten', exH:'ざせき', exK:'ピザ', exKo:'자세키 / 피자', exMean:'좌석 / 피자' },
+  { h:'じ', k:'ジ', ko:'지', en:'ji', row:'자행', cat:'dakuten', exH:'じかん', exK:'ジュース', exKo:'지칸 / 주스', exMean:'시간 / 주스' },
+  { h:'ず', k:'ズ', ko:'즈', en:'zu', row:'자행', cat:'dakuten', exH:'ちず', exK:'チーズ', exKo:'치즈', exMean:'지도 / 치즈' },
+  { h:'ぜ', k:'ゼ', ko:'제', en:'ze', row:'자행', cat:'dakuten', exH:'ぜんぶ', exK:'ゼロ', exKo:'젠부 / 제로', exMean:'전부 / 숫자 0' },
+  { h:'ぞ', k:'ゾ', ko:'조', en:'zo', row:'자행', cat:'dakuten', exH:'どうぞ', exK:'リゾート', exKo:'도조 / 리조토', exMean:'부디(여기요) / 리조트' },
+
+  { h:'だ', k:'ダ', ko:'다', en:'da', row:'다행', cat:'dakuten', exH:'だいじょうぶ', exK:'ダブル', exKo:'다이조부 / 다부루', exMean:'괜찮아요 / 더블' },
+  { h:'ぢ', k:'ヂ', ko:'지', en:'ji', row:'다행', cat:'dakuten', exH:'はなぢ', exK:'チヂミ', exKo:'하나지 / 치지미', exMean:'코피 / 부침개' },
+  { h:'づ', k:'ヅ', ko:'즈', en:'zu', row:'다행', cat:'dakuten', exH:'つづく', exK:'カンヅメ', exKo:'츠즈쿠 / 칸즈메', exMean:'계속되다 / 통조림' },
+  { h:'で', k:'デ', ko:'데', en:'de', row:'다행', cat:'dakuten', exH:'でぐち', exK:'デパート', exKo:'데구치 / 데파토', exMean:'출구 / 백화점' },
+  { h:'ど', k:'ド', ko:'도', en:'do', row:'다행', cat:'dakuten', exH:'どこ', exK:'ドア', exKo:'도코 / 도아', exMean:'어디 / 문(Door)' },
+
+  { h:'ば', k:'バ', ko:'바', en:'ba', row:'바행', cat:'dakuten', exH:'ばしょ', exK:'バス', exKo:'바쇼 / 바스', exMean:'장소 / 버스' },
+  { h:'び', k:'ビ', ko:'비', en:'bi', row:'바행', cat:'dakuten', exH:'びょういん', exK:'ビール', exKo:'뵤인 / 비루', exMean:'병원 / 맥주' },
+  { h:'ぶ', k:'ブ', ko:'부', en:'bu', row:'바행', cat:'dakuten', exH:'ぶたにく', exK:'ブーツ', exKo:'부타니쿠 / 부츠', exMean:'돼지고기 / 부츠' },
+  { h:'べ', k:'ベ', ko:'베', en:'be', row:'바행', cat:'dakuten', exH:'べんり', exK:'ベッド', exKo:'벤리 / 벳도', exMean:'편리함 / 침대' },
+  { h:'ぼ', k:'ボ', ko:'보', en:'bo', row:'바행', cat:'dakuten', exH:'ぼうし', exK:'ボトル', exKo:'보시 / 보토루', exMean:'모자 / 병(보틀)' },
+
+  { h:'ぱ', k:'パ', ko:'파', en:'pa', row:'파행', cat:'dakuten', exH:'いっぱい', exK:'パスタ', exKo:'잇파이 / 파스타', exMean:'가득(한 잔) / 파스타' },
+  { h:'ぴ', k:'ピ', ko:'피', en:'pi', row:'파행', cat:'dakuten', exH:'ぴかぴか', exK:'ピンク', exKo:'피카피카 / 핑크', exMean:'반짝반짝 / 핑크' },
+  { h:'ぷ', k:'プ', ko:'푸', en:'pu', row:'파행', cat:'dakuten', exH:'てんぷら', exK:'プール', exKo:'텐푸라 / 푸루', exMean:'튀김 / 수영장' },
+  { h:'ぺ', k:'ペ', ko:'페', en:'pe', row:'파행', cat:'dakuten', exH:'ぺこぺこ', exK:'ペン', exKo:'페코페코 / 펜', exMean:'배고픔 / 펜' },
+  { h:'ぽ', k:'ポ', ko:'포', en:'po', row:'파행', cat:'dakuten', exH:'さんぽ', exK:'ポイント', exKo:'산포 / 포인토', exMean:'산책 / 포인트(적립)' },
+
+  // Yoon (요음)
+  { h:'きゃ', k:'キャ', ko:'캬', en:'kya', row:'요음', cat:'yoon', exH:'おきゃくさま', exK:'キャッシュ', exKo:'오캬쿠사마 / 캣슈', exMean:'손님 / 현금' },
+  { h:'きゅ', k:'キュ', ko:'큐', en:'kyu', row:'요음', cat:'yoon', exH:'きゅうこう', exK:'キュー', exKo:'큐코 / 큐', exMean:'급행열차 / 큐' },
+  { h:'きょ', k:'キョ', ko:'쿄', en:'kyo', row:'요음', cat:'yoon', exH:'きょうと', exK:'キョリ', exKo:'쿄토', exMean:'교토(도시)' },
+
+  { h:'しゃ', k:'シャ', ko:'샤', en:'sha', row:'요음', cat:'yoon', exH:'しゃしん', exK:'シャツ', exKo:'샤신 / 샤츠', exMean:'사진 / 셔츠' },
+  { h:'しゅ', k:'シュ', ko:'슈', en:'shu', row:'요음', cat:'yoon', exH:'しゅっぱつ', exK:'シュークリーム', exKo:'슛파츠 / 슈크림', exMean:'출발 / 슈크림' },
+  { h:'しょ', k:'ショ', ko:'쇼', en:'sho', row:'요음', cat:'yoon', exH:'しょうゆ', exK:'ショッピング', exKo:'쇼유 / 숏핑구', exMean:'간장 / 쇼핑' },
+
+  { h:'ちゃ', k:'チャ', ko:'챠', en:'cha', row:'요음', cat:'yoon', exH:'おちゃ', exK:'チャージ', exKo:'오차 / 차지', exMean:'녹차(차) / 충전' },
+  { h:'ちゅ', k:'チュ', ko:'츄', en:'chu', row:'요음', cat:'yoon', exH:'ちゅうもん', exK:'チューブ', exKo:'추몬 / 츄부', exMean:'주문 / 튜브' },
+  { h:'ちょ', k:'チョ', ko:'쵸', en:'cho', row:'요음', cat:'yoon', exH:'ちょっと', exK:'チョコ', exKo:'촛토 / 초코', exMean:'잠깐(조금) / 초콜릿' },
+
+  { h:'にゃ', k:'ニャ', ko:'냐', en:'nya', row:'요음', cat:'yoon', exH:'にゃんこ', exK:'ニャン', exKo:'냥코', exMean:'고양이' },
+  { h:'にゅ', k:'ニュ', ko:'뉴', en:'nyu', row:'요음', cat:'yoon', exH:'にゅうじょう', exK:'メニュー', exKo:'뉴조 / 메뉴', exMean:'입장 / 메뉴' },
+  { h:'にょ', k:'ニョ', ko:'뇨', en:'nyo', row:'요음', cat:'yoon', exH:'にょうぼう', exK:'ニョッキ', exKo:'뇨키', exMean:'뇨끼(요리)' },
+
+  { h:'ひゃ', k:'ヒャ', ko:'햐', en:'hya', row:'요음', cat:'yoon', exH:'ひゃくえん', exK:'ヒャク', exKo:'햐쿠엔', exMean:'100엔' },
+  { h:'ひゅ', k:'ヒュ', ko:'휴', en:'hyu', row:'요음', cat:'yoon', exH:'ひゅうが', exK:'ヒューズ', exKo:'휴즈', exMean:'휴즈' },
+  { h:'ひょ', k:'ヒョ', ko:'효', en:'hyo', row:'요음', cat:'yoon', exH:'ひょう', exK:'ヒョウ', exKo:'효', exMean:'표(리스트)' },
+
+  { h:'みゃ', k:'ミャ', ko:'먀', en:'mya', row:'요음', cat:'yoon', exH:'みゃく', exK:'ミャンマー', exKo:'미얀마', exMean:'미얀마' },
+  { h:'みゅ', k:'ミュ', ko:'뮤', en:'myu', row:'요음', cat:'yoon', exH:'みゅーじっく', exK:'ミュージアム', exKo:'뮤지아무', exMean:'박물관(뮤지엄)' },
+  { h:'みょ', k:'ミョ', ko:'묘', en:'myo', row:'요음', cat:'yoon', exH:'みょうじ', exK:'ミョウガ', exKo:'묘지', exMean:'성(이름의 성)' },
+
+  { h:'りゃ', k:'リャ', ko:'랴', en:'rya', row:'요음', cat:'yoon', exH:'りゃくご', exK:'リャマ', exKo:'랴쿠고', exMean:'약어' },
+  { h:'りゅ', k:'リュ', ko:'류', en:'ryu', row:'요음', cat:'yoon', exH:'りゅうがく', exK:'リュック', exKo:'류갓쿠 / 륙쿠', exMean:'유학 / 배낭(백팩)' },
+  { h:'りょ', k:'リョ', ko:'료', en:'ryo', row:'요음', cat:'yoon', exH:'りょこう', exK:'リョカン', exKo:'료코 / 료칸', exMean:'여행 / 료칸(여관)' }
+];
+
+// 2. TRAVEL VOCABULARY
+const TRAVEL_VOCAB = [
+  { jp:'コーヒー', read:'코-히-', mean:'커피', cat:'카페·식당' },
+  { jp:'アイスラテ', read:'아이스라테', mean:'아이스 라떼', cat:'카페·식당' },
+  { jp:'メニュー', read:'메뉴-', mean:'메뉴판', cat:'카페·식당' },
+  { jp:'お水 (おみず)', read:'오미즈', mean:'물', cat:'카페·식당' },
+  { jp:'おすすめ', read:'오스스메', mean:'추천 메뉴', cat:'카페·식당' },
+  { jp:'お会計 (おかいけい)', read:'오카이케이', mean:'계산(결제)', cat:'카페·식당' },
+  { jp:'テイクアウト', read:'테이쿠아우토', mean:'테이크아웃(포장)', cat:'카페·식당' },
+  { jp:'レシート', read:'레시-토', mean:'영수증', cat:'편의점·쇼핑' },
+  { jp:'レジ袋 (れじぶくろ)', read:'레지부쿠로', mean:'비닐봉투', cat:'편의점·쇼핑' },
+  { jp:'ポイントカード', read:'포인토카-도', mean:'포인트 카드', cat:'편의점·쇼핑' },
+  { jp:'クレジットカード', read:'쿠레짓토카-도', mean:'신용카드', cat:'편의점·쇼핑' },
+  { jp:'免税 (めんぜい)', read:'멘제이', mean:'면세 (Tax-Free)', cat:'편의점·쇼핑' },
+  { jp:'サイズ', read:'사이즈', mean:'사이즈(치수)', cat:'편의점·쇼핑' },
+  { jp:'トイレ / お手洗い', read:'토이레 / 오테아라이', mean:'화장실', cat:'교통·표지판' },
+  { jp:'入口 (いりぐち)', read:'이리구치', mean:'입구', cat:'교통·표지판' },
+  { jp:'出口 (でぐち)', read:'데구치', mean:'출구', cat:'교통·표지판' },
+  { jp:'駅 (えき)', read:'에키', mean:'역 (기차/지하철역)', cat:'교통·표지판' },
+  { jp:'切符 (きっぷ)', read:'킷푸', mean:'표 / 승차권', cat:'교통·표지판' },
+  { jp:'タクシー', read:'타쿠시-', mean:'택시', cat:'교통·표지판' },
+  { jp:'ホテル', read:'호테루', mean:'호텔', cat:'교통·표지판' },
+  { jp:'チェックイン', read:'쳇쿠인', mean:'체크인', cat:'교통·표지판' },
+  { jp:'禁煙 (きんえん)', read:'킨엔', mean:'금연', cat:'교통·표지판' }
+];
+
+// APP STATE
+let currentScript = 'h'; // 'h' = hiragana, 'k' = katakana
+let chartCategory = 'basic';
+let selectedItem = KANA_DATA[0];
+let learnedSet = new Set(JSON.parse(localStorage.getItem('kana_learned') || '[]'));
+let weakMap = JSON.parse(localStorage.getItem('kana_weak') || '{}');
+let fontScale = parseFloat(localStorage.getItem('kana_font_scale') || '1');
+
+// Flashcard state
+let fcList = [];
+let fcIndex = 0;
+
+// Quiz state
+let quizMode = 'charToKo';
+let quizCurrent = null;
+let quizTotal = 0;
+let quizCorrect = 0;
+let quizStreak = 0;
+let quizAnswered = false;
+
+// Vocab state
+let vocabFilter = 'all';
+let blurReading = false;
+
+// FONT SIZE CONTROL
+function applyFontScale() {
+  document.documentElement.style.setProperty('--font-scale', fontScale);
+  document.getElementById('fontScaleLabel').textContent = Math.round(fontScale * 100) + '%';
+  localStorage.setItem('kana_font_scale', fontScale.toFixed(2));
+}
+
+function changeFontSize(delta) {
+  fontScale = Math.min(1.6, Math.max(0.85, +(fontScale + delta).toFixed(2)));
+  applyFontScale();
+}
+
+// SPEECH SYNTHESIS
+function speak(text) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'ja-JP';
+  utter.rate = 0.9;
+  window.speechSynthesis.speak(utter);
+}
+
+// PROGRESS UPDATE
+function updateProgress() {
+  const totalCount = KANA_DATA.filter(Boolean).length * 2; // h + k
+  const pct = Math.round((learnedSet.size / totalCount) * 100);
+  document.getElementById('progressBadge').textContent = `암기율 ${pct}%`;
+  localStorage.setItem('kana_learned', JSON.stringify([...learnedSet]));
+}
+
+// SCRIPT SWITCH
+function setScript(s) {
+  currentScript = s;
+  document.getElementById('btnHiragana').classList.toggle('active', s === 'h');
+  document.getElementById('btnKatakana').classList.toggle('active', s === 'k');
+  renderChart();
+  updateDetailCard(selectedItem);
+  renderFlashcard();
+  nextQuiz();
+  renderWeakChips();
+}
+
+// TAB SWITCH
+function switchTab(tabName, btn) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + tabName).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  btn.classList.add('active');
+
+  if (tabName === 'flashcard') initFlashcards();
+  if (tabName === 'quiz') nextQuiz();
+  if (tabName === 'vocab') renderVocab();
+}
+
+// CHART FUNCTIONS
+function setChartCategory(cat, btn) {
+  chartCategory = cat;
+  btn.parentElement.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderChart();
+}
+
+function renderChart() {
+  const grid = document.getElementById('kanaGrid');
+  grid.innerHTML = '';
+  grid.className = 'kana-grid' + (chartCategory === 'yoon' ? ' yoon' : '');
+
+  let items = [];
+  if (chartCategory === 'basic') {
+    items = KANA_DATA.slice(0, 50); // includes nulls for grid alignment
+  } else {
+    items = KANA_DATA.filter(item => item && item.cat === chartCategory);
+  }
+
+  items.forEach(item => {
+    const cell = document.createElement('div');
+    if (!item) {
+      cell.className = 'kana-cell empty';
+      grid.appendChild(cell);
+      return;
+    }
+    const char = item[currentScript];
+    const key = currentScript + '_' + item.h;
+    cell.className = 'kana-cell' + (learnedSet.has(key) ? ' learned' : '');
+    cell.innerHTML = `
+      <div class="cell-char">${char}</div>
+      <div class="cell-ko">${item.ko}</div>
+    `;
+    cell.onclick = () => {
+      selectedItem = item;
+      updateDetailCard(item);
+      speak(char);
+    };
+    grid.appendChild(cell);
+  });
+}
+
+function updateDetailCard(item) {
+  if (!item) return;
+  const char = item[currentScript];
+  const ex = currentScript === 'h' ? item.exH : item.exK;
+  document.getElementById('detailKana').textContent = char;
+  document.getElementById('detailKo').textContent = `${item.ko} [${item.en}]`;
+  document.getElementById('detailWord').textContent = `예시: ${ex} (${item.exMean})`;
+}
+
+function speakCurrentDetail() {
+  if (!selectedItem) return;
+  const ex = currentScript === 'h' ? selectedItem.exH : selectedItem.exK;
+  speak(ex);
+}
+
+// FLASHCARD FUNCTIONS
+function initFlashcards() {
+  const filter = document.getElementById('fcFilter').value;
+  const valid = KANA_DATA.filter(Boolean);
+
+  if (filter === 'all') {
+    fcList = valid.filter(i => i.cat === 'basic' || i.cat === 'dakuten');
+  } else if (filter === 'basic' || filter === 'dakuten') {
+    fcList = valid.filter(i => i.cat === filter);
+  } else if (filter === 'unlearned') {
+    fcList = valid.filter(i => !learnedSet.has(currentScript + '_' + i.h));
+    if (fcList.length === 0) fcList = valid;
+  } else {
+    fcList = valid.filter(i => i.row === filter);
+  }
+
+  fcIndex = 0;
+  renderFlashcard();
+}
+
+function renderFlashcard() {
+  if (fcList.length === 0) return;
+  const item = fcList[fcIndex];
+  const card = document.getElementById('flashcard');
+  card.classList.remove('flipped');
+
+  const char = item[currentScript];
+  const ex = currentScript === 'h' ? item.exH : item.exK;
+  document.getElementById('fcChar').textContent = char;
+  document.getElementById('fcKo').textContent = `${item.ko} [${item.en}]`;
+  document.getElementById('fcExample').textContent = `${ex} — ${item.exMean}`;
+  document.getElementById('fcCounter').textContent = `${fcIndex + 1} / ${fcList.length}`;
+
+  const key = currentScript + '_' + item.h;
+  const btn = document.getElementById('btnMarkLearned');
+  if (learnedSet.has(key)) {
+    btn.textContent = '★ 암기완료 (해제)';
+    btn.style.background = '#059669';
+  } else {
+    btn.textContent = '✓ 외웠어요';
+    btn.style.background = 'var(--success)';
+  }
+}
+
+function flipCard() {
+  const card = document.getElementById('flashcard');
+  card.classList.toggle('flipped');
+  const item = fcList[fcIndex];
+  speak(item[currentScript]);
+}
+
+function nextCard() {
+  fcIndex = (fcIndex + 1) % fcList.length;
+  renderFlashcard();
+}
+
+function prevCard() {
+  fcIndex = (fcIndex - 1 + fcList.length) % fcList.length;
+  renderFlashcard();
+}
+
+function toggleLearnedCurrent() {
+  const item = fcList[fcIndex];
+  const key = currentScript + '_' + item.h;
+  if (learnedSet.has(key)) {
+    learnedSet.delete(key);
+  } else {
+    learnedSet.add(key);
+  }
+  updateProgress();
+  renderChart();
+  renderFlashcard();
+}
+
+// QUIZ FUNCTIONS
+function setQuizMode(mode, btn) {
+  quizMode = mode;
+  btn.parentElement.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  nextQuiz();
+}
+
+function nextQuiz() {
+  quizAnswered = false;
+  const pool = KANA_DATA.filter(i => i && (i.cat === 'basic' || i.cat === 'dakuten'));
+  quizCurrent = pool[Math.floor(Math.random() * pool.length)];
+
+  // Pick 3 distractors with different Korean pronunciations
+  const options = [quizCurrent];
+  while (options.length < 4) {
+    const candidate = pool[Math.floor(Math.random() * pool.length)];
+    if (!options.some(o => o.ko === candidate.ko)) {
+      options.push(candidate);
+    }
+  }
+  options.sort(() => Math.random() - 0.5);
+
+  const labelEl = document.getElementById('quizLabel');
+  const qEl = document.getElementById('quizQuestion');
+
+  if (quizMode === 'charToKo') {
+    labelEl.textContent = '이 글자의 발음은?';
+    qEl.innerHTML = quizCurrent[currentScript];
+  } else if (quizMode === 'koToChar') {
+    labelEl.textContent = '발음에 해당하는 글자는?';
+    qEl.innerHTML = `${quizCurrent.ko} <span style="font-size:calc(24px * var(--font-scale));color:var(--text-muted);margin-left:6px;">[${quizCurrent.en}]</span>`;
+  } else {
+    labelEl.textContent = '소리를 듣고 알맞은 글자를 고르세요';
+    qEl.innerHTML = `<button class="btn btn-primary" style="font-size:calc(18px * var(--font-scale));padding:14px 24px;" onclick="speak('${quizCurrent[currentScript]}')">🔊 다시 듣기</button>`;
+    speak(quizCurrent[currentScript]);
+  }
+
+  const optContainer = document.getElementById('quizOptions');
+  optContainer.innerHTML = '';
+
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.textContent = quizMode === 'charToKo' ? `${opt.ko} (${opt.en})` : opt[currentScript];
+    btn.onclick = () => checkAnswer(opt, btn, options);
+    optContainer.appendChild(btn);
+  });
+}
+
+function checkAnswer(selected, btn, options) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  quizTotal++;
+
+  const isCorrect = selected.h === quizCurrent.h;
+  const allBtns = document.querySelectorAll('.option-btn');
+
+  if (isCorrect) {
+    btn.classList.add('correct');
+    quizCorrect++;
+    quizStreak++;
+    speak(quizCurrent[currentScript]);
+  } else {
+    btn.classList.add('wrong');
+    quizStreak = 0;
+    speak(quizCurrent[currentScript]);
+    // Highlight correct button
+    options.forEach((opt, idx) => {
+      if (opt.h === quizCurrent.h) {
+        allBtns[idx].classList.add('correct');
+      }
+    });
+    // Record weak character
+    const weakKey = currentScript + '_' + quizCurrent.h;
+    weakMap[weakKey] = (weakMap[weakKey] || 0) + 1;
+    localStorage.setItem('kana_weak', JSON.stringify(weakMap));
+    renderWeakChips();
+  }
+
+  document.getElementById('quizScore').textContent = `정답: ${quizCorrect} / ${quizTotal}`;
+  document.getElementById('quizStreak').textContent = `연속 정답: ${quizStreak}🔥`;
+
+  setTimeout(() => {
+    nextQuiz();
+  }, 1100);
+}
+
+function renderWeakChips() {
+  const container = document.getElementById('weakChips');
+  const entries = Object.entries(weakMap)
+    .filter(([k]) => k.startsWith(currentScript + '_'))
+    .sort((a, b) => b[1] - a[1]);
+
+  if (entries.length === 0) {
+    container.innerHTML = '<span style="font-size:12px;color:#94a3b8;">아직 오답 기록이 없습니다.</span>';
+    return;
+  }
+
+  container.innerHTML = '';
+  entries.forEach(([key, count]) => {
+    const hChar = key.split('_')[1];
+    const item = KANA_DATA.find(i => i && i.h === hChar);
+    if (!item) return;
+    const chip = document.createElement('span');
+    chip.className = 'weak-chip';
+    chip.textContent = `${item[currentScript]} (${item.ko}) ×${count}`;
+    chip.onclick = () => speak(item[currentScript]);
+    container.appendChild(chip);
+  });
+}
+
+function clearWeak() {
+  weakMap = {};
+  localStorage.removeItem('kana_weak');
+  renderWeakChips();
+}
+
+// TRAVEL VOCAB FUNCTIONS
+function filterVocab(cat, btn) {
+  vocabFilter = cat;
+  btn.parentElement.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderVocab();
+}
+
+function toggleReadingBlur() {
+  blurReading = !blurReading;
+  const btn = document.getElementById('toggleBlurBtn');
+  btn.classList.toggle('active', blurReading);
+  btn.textContent = blurReading ? '발음 보이기' : '발음 가리기';
+  renderVocab();
+}
+
+function renderVocab() {
+  const list = document.getElementById('vocabList');
+  list.innerHTML = '';
+  const filtered = vocabFilter === 'all'
+    ? TRAVEL_VOCAB
+    : TRAVEL_VOCAB.filter(v => v.cat === vocabFilter);
+
+  filtered.forEach(v => {
+    const div = document.createElement('div');
+    div.className = 'vocab-item';
+    // Extract clean Japanese text without parentheses for TTS
+    const speakText = v.jp.split('(')[0].trim();
+    div.onclick = () => speak(speakText);
+    div.innerHTML = `
+      <div>
+        <div class="vocab-jp">${v.jp} 🔊</div>
+        <div class="vocab-reading ${blurReading ? 'hidden' : ''}">${v.read}</div>
+      </div>
+      <div class="vocab-meaning">
+        ${v.mean}
+        <span class="vocab-cat">${v.cat}</span>
+      </div>
+    `;
+    list.appendChild(div);
+  });
+}
+
+// INIT
+applyFontScale();
+updateProgress();
+renderChart();
+updateDetailCard(selectedItem);
+initFlashcards();
+renderWeakChips();
+renderVocab();
+</script>
+</body>
+</html>
